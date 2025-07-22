@@ -97,11 +97,11 @@ example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
 example : (a + b) * (a + b) = a * a + 2 * (a * b) + b * b :=
   calc
     (a + b) * (a + b) = a * a + b * a + (a * b + b * b) := by
-      sorry
+      ring
     _ = a * a + (b * a + a * b) + b * b := by
-      sorry
+      ring
     _ = a * a + 2 * (a * b) + b * b := by
-      sorry
+      ring
 
 end
 
@@ -120,14 +120,12 @@ example : (a + b) * (c + d) = a * c + a * d + b * c + b * d := by
 
 example (a b : ℝ) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
   calc
-    (a + b) * (a - b) = a * a + b * a - (b * a + b * b) := by
-      rw [mul_add, add_mul, add_mul]
-    _ = a * a - (b * a + b * b) := by
-      rw [add_comm (b * a), add_assoc (a * a)]
+    (a + b) * (a - b) = a * a + b * a - (a * b + b * b) := by
+      rw [mul_sub, add_mul, add_mul]
+    _ = a * a + (b * a - a * b) - b * b := by
+      rw [← sub_sub, add_sub]
     _ = a ^ 2 - b ^ 2 := by
-      rw [pow_two, pow_two, sub_sub]
-
-end
+      rw [mul_comm b a, sub_self, pow_two, pow_two, add_zero]
 
 #check pow_two a
 #check mul_sub a b c
@@ -135,6 +133,7 @@ end
 #check add_sub a b c
 #check sub_sub a b c
 #check add_zero a
+#check sub_add
 
 end
 
